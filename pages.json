@@ -1,0 +1,186 @@
+{
+    "pages": [ //pages数组中第一项表示应用启动页,
+        {
+            "path": "pages/main/main",
+            "style": {
+				"enablePullDownRefresh": true,
+                "navigationBarTitleText": "消息"
+            }
+        },
+		{
+		    "path": "pages/main/msg",
+		    "style": {
+				"enablePullDownRefresh": true,
+		        "navigationBarTitleText": "好友通知"
+		    }
+		},
+		{
+		    "path": "pages/msg/msg",
+		    "style": {
+		        "navigationBarTitleText": "聊天",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "&#58369;",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "24px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+		    }
+		},
+		{
+		    "path": "pages/msg/groupMsg",
+		    "style": {
+		        "navigationBarTitleText": "群聊",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "&#57648;",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "24px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+		    }
+		},
+		{
+		    "path": "pages/msg/grouppro",
+		    "style": {
+		        "navigationBarTitleText": "群成员",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "退群",
+							// "fontSrc": "/static/uni.ttf",
+							"fontSize": "16px",
+							"color": "#f76260"
+						}]
+					}
+				}
+		    }
+		},
+		{
+            "path": "pages/login/login",
+            "style": {
+                "navigationBarTitleText": "登录"
+            }
+        }, {
+            "path": "pages/reg/reg",
+            "style": {
+                "navigationBarTitleText": "注册"
+            }
+        }, {
+            "path": "pages/pwd/pwd",
+            "style": {
+                "navigationBarTitleText": "找回密码"
+            }
+        }, {
+            "path": "pages/user/user",
+            "style": {
+				"enablePullDownRefresh": true,
+                "navigationBarTitleText": "我的"
+            }
+        }
+        ,{
+            "path" : "pages/liaison/liaison",
+            "style" : {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "联系人",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "&#57602;",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "24px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+			}
+        },
+		{
+			"path": "pages/liaison/add/createGroup",
+			"style": {
+				"navigationBarTitleText": "创建群"
+			}
+		},
+		{
+			"path": "pages/liaison/add/addf",
+			"style": {
+				"navigationBarTitleText": "添加好友/群"
+			}
+		},
+		{
+			"path": "pages/liaison/add/newf",
+			"style": {
+				"navigationBarTitleText": "新朋友"
+			}
+		},
+		{
+		    "path" : "pages/my/my",
+		    "style" : {
+				"navigationBarTitleText": "好友"
+			}
+		},
+		{
+			"path": "pages/my/info",
+			"style": {
+				"navigationBarTitleText": "更新用户信息"
+			}
+		},
+		{
+			"path": "pages/card/card",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "系统通知"
+			}
+		}
+    ],
+    "tabBar": {
+        "color": "#7a7e83",
+        "selectedColor": "#0faeff",
+        "backgroundColor": "#ffffff",
+        "list": [{
+            "pagePath": "pages/main/main",
+            "text": "消息",
+            "iconPath": "static/img/liaison.png",
+            "selectedIconPath": "static/img/liaisonHL.png"
+        }, 
+		{
+		    "pagePath": "pages/liaison/liaison",
+		    "text": "联系人",
+		    "iconPath": "static/img/user.png",
+		    "selectedIconPath": "static/img/userHL.png"
+		},
+		// {
+		//     "pagePath": "pages/my/my",
+		//     "text": "好友",
+		//     "iconPath": "static/img/user.png",
+		//     "selectedIconPath": "static/img/userHL.png"
+		// },
+		{
+            "pagePath": "pages/my/my",
+            "text": "我的",
+            "iconPath": "static/img/home.png",
+            "selectedIconPath": "static/img/homeHL.png"
+        },
+		{
+		    "pagePath": "pages/card/card",
+		    "text": "通知",
+		    "iconPath": "static/img/home.png",
+		    "selectedIconPath": "static/img/homeHL.png"
+		}]
+    },
+    "globalStyle": {
+        "navigationBarTextStyle": "white",
+        "navigationBarBackgroundColor": "#0faeff",
+        "backgroundColor": "#fbf9fe"
+    }
+}

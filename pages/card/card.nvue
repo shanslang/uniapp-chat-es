@@ -1,0 +1,293 @@
+<template>
+	<view>
+		<uni-section title="系统通知" type="line"></uni-section>
+		<view class="example-body">
+			<view class="example-box" v-for="item in list" :key="item.id">
+				<uni-card :is-shadow="true" title="通知" mode="title" extra="" note="true" @click="clickCard">
+					<view>
+						<view class="image-box" v-if="item.img != ''">
+							<image class="image" mode="aspectFill" :src="item.img" />
+						</view>
+						<view class="content-box">
+							<text class="content-box-text">
+								{{item.content}}
+							</text>
+						</view>
+					</view>
+					<template slot="footer">
+						<view class="footer-box">
+							<view @click.stop="footerClick('喜欢')"><text class="footer-box__item"> {{item.updatetime}}</text></view>
+						</view>
+					</template>
+				</uni-card>
+			</view>
+		</view>
+		
+		<uni-section v-if="list == ''" title="暂无通知" type="line"></uni-section>
+	</view>
+</template>
+
+<script>
+	import  {s_MsgUrl}  from  '@/common/js/config.js'
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
+	import uniSection from '@/components/uni-section/uni-section.vue'
+	import uniCard from '@/components/uni-card/uni-card.vue'
+	export default {
+		computed: mapState(['hasLogin', 's_token']),
+		components: {
+			uniSection,
+			uniCard
+		},
+		data() {
+			return {
+				list: []
+			}
+		},
+		onLoad() {
+			this.getnewsList();
+		},
+		onShow(){
+			uni.removeTabBarBadge({
+				index: 3
+			})
+		},
+		onPullDownRefresh:function(){ // 下拉刷新
+			uni.showNavigationBarLoading();
+			this.getnewsList();
+		},
+		methods: {
+			...mapMutations(['logout']),
+			getData: function (url, token){
+				uni.request({
+					url: url,
+					dataType: 'json',
+					data: {token: token},
+					method: 'post',
+					header: {  
+						'Content-Type': 'application/x-www-form-urlencoded'  
+					}, 
+					success: (res) => {
+						if(res.data.code === 200){	
+							this.list = res.data.data;
+							console.log(res.data);
+						}else{
+							uni.showToast({
+								icon: 'none',
+								title: res.data.msg
+							});
+							this.logout();
+							return;
+						}
+					},
+					fail: (err) => {
+						console.log('request fail', err);
+						uni.showModal({
+							content: err.errMsg,
+							showCancel: false
+						});
+						return false;
+					},
+					complete: () => {
+						// uni.hideToast();
+					}
+				});
+			},
+			clickCard() {
+				uni.showToast({
+					title: '点击卡片',
+					icon: 'none'
+				})
+			},
+			footerClick(types) {
+				uni.showToast({
+					title: types,
+					icon: 'none'
+				})
+			},
+			getnewsList: function (){
+				if (!this.hasLogin) {
+				    uni.showModal({
+				        title: '未登录',
+				        content: '您未登录，需要登录后才能继续',
+				        /**
+				         * 如果需要强制登录，不显示取消按钮
+				         */
+				        showCancel: !this.forcedLogin,
+				        success: (res) => {
+				            if (res.confirm) {
+								/**
+								 * 如果需要强制登录，使用reLaunch方式
+								 */
+				                if (this.forcedLogin) {
+				                    uni.reLaunch({
+				                        url: '../login/login'
+				                    });
+				                } else {
+				                    uni.navigateTo({
+				                        url: '../login/login'
+				                    });
+				                }
+				            }
+				        }
+				    });
+				}else{
+					this.getData(s_MsgUrl, this.s_token);
+				}
+				uni.hideNavigationBarLoading();
+				uni.stopPullDownRefresh();
+			}
+		}
+	}
+</script>
+
+<style>
+	/* 头条小程序组件内不能引入字体 */
+	/* #ifdef MP-TOUTIAO */
+	@font-face {
+		font-family: uniicons;
+		font-weight: normal;
+		font-style: normal;
+		src: url('~@/static/uni.ttf') format('truetype');
+	}
+
+	/* #endif */
+
+	/* #ifndef APP-NVUE */
+	page {
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		background-color: #efeff4;
+		min-height: 100%;
+		height: auto;
+	}
+
+	view {
+		font-size: 28rpx;
+		line-height: inherit;
+	}
+
+	.example {
+		padding: 0 30rpx 30rpx;
+	}
+
+	.example-info {
+		padding: 30rpx;
+		color: #3b4144;
+		background: #ffffff;
+	}
+
+	.example-body {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding: 0;
+		font-size: 14rpx;
+		background-color: #ffffff;
+	}
+
+	/* #endif */
+	.example {
+		padding: 0 30rpx;
+	}
+
+	.example-info {
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
+		padding: 30rpx;
+		color: #3b4144;
+		background-color: #ffffff;
+		font-size: 30rpx;
+	}
+
+	.example-info-text {
+		font-size: 28rpx;
+		line-height: 36rpx;
+	}
+
+
+	.example-body {
+		flex-direction: column;
+		padding: 30rpx;
+		background-color: #ffffff;
+	}
+
+	.word-btn-white {
+		font-size: 18px;
+		color: #FFFFFF;
+	}
+
+	.word-btn {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		border-radius: 6px;
+		height: 48px;
+		margin: 15px;
+		background-color: #007AFF;
+	}
+
+	.word-btn--hover {
+		background-color: #4ca2ff;
+	}
+
+
+	.example-body {
+		padding: 20rpx 0;
+		padding-bottom: 0;
+
+	}
+
+	.example-box {
+		/* margin-bottom: 30rpx;
+ */
+	}
+
+	.image-box {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		flex-direction: column;
+		/* #endif */
+		height: 350rpx;
+		overflow: hidden;
+	}
+
+	.image {
+		/* #ifndef APP-NVUE */
+		width: 100%;
+		height: 100%;
+		/* #endif */
+		flex: 1;
+	}
+
+	.content-box {
+		padding-top: 20rpx;
+	}
+
+	.content-box-text {
+		font-size: 30rpx;
+	}
+
+	.footer-box {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		justify-content: space-between;
+		flex-direction: row;
+
+	}
+
+	.footer-box__item {
+		align-items: center;
+		padding: 10rpx 0;
+		font-size: 30rpx;
+		color: #666;
+	}
+</style>
